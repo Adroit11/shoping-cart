@@ -1,6 +1,6 @@
 <img src="https://raw.githubusercontent.com/pyadav/shoping-cart/master/public/images/yumist.png" max-width="900">
 
-##Welcome to log.os
+## Order Food now!
 
 > This is a tiny shoping-cart for food delivery project using Express and NodeJS in backend with React & Redux in front-end having porting the data into mysql database.
 
