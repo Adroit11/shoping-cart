@@ -1,17 +1,12 @@
 import express from 'express';
 import apiController from '../controllers';
-import apiUserController from '../controllers/user';
+import apiOrderController from '../controllers/order';
 
 const router = express.Router();
 
 // define the home page route
 router.get('/', apiController.indexHandler);
 
-// Router to get/add/update/delete user profile
-router.route('/user')
-  .get(apiUserController.getUserProfile)
-  .post(apiUserController.postUserProfile)
-  .put(apiUserController.putUserProfile)
-  .delete(apiUserController.deleteUserProfile)
-
+// Router to update order
+router.post('/order', apiOrderController.postOrder)
 module.exports = router;

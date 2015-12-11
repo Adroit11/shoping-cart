@@ -1,5 +1,6 @@
 import { checkHttpStatus, parseJSON } from '../utils';
 import history from '../utils/history';
+import { getCartProducts } from '../reducers'
 
 import {
   RECEIVE_PRODUCTS,
@@ -15,7 +16,7 @@ function addToCartUnsafe(productId) {
   }
 }
 
-export function checkout(order) {
+export function getcheckout(order) {
   return {
     type: CHECKOUT_DONE
   }
@@ -36,25 +37,29 @@ export function getAllProducts() {
 }
 
 // Async method to login user
-export function loginUser(user, redirect="/") {
-    return function(dispatch) {
-        return fetch('http://localhost:1337/login/', {
+export function checkout(data, redirect="/") {
+    let order = data;
+    return function(dispatch, getState) {
+        order.items = getCartProducts(getState())
+
+        return fetch('http://localhost:3000/order', {
               method: 'post',
               headers: {
                   'Accept': 'application/json',
                   'Content-Type': 'application/json'
               },
-              body: JSON.stringify(user)
+              body: JSON.stringify(order)
             })
             .then(checkHttpStatus)
             .then(parseJSON)
             .then(response => {
+                console.log(response);
                 // dispatch user login success status to reducer
-                dispatch(loginUserSuccess(response))
-                history.replaceState(null, '/')
+                dispatch(getcheckout())
+                setTimeout(() => { history.replaceState(null, '/') }, 3000);
+
             })
             .catch(error => {
-                dispatch(loginUserFailure(error));
             })
     }
 }

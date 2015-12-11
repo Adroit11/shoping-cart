@@ -5,10 +5,14 @@ import logger from 'morgan';
 import compression from 'compression';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
+import mysql from './services/dbServices'
 
 
 const app = global.server = express();
 const application = http.createServer(app);
+
+// create database and table if not present
+mysql.createDB();
 
 app.enable('trust proxy');
 
@@ -38,7 +42,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
 // Register API middleware
-app.get('/', require('./api'))
+app.use(require('./api'))
 
 // Launch the server
 const server = application.listen(app.get('port'), () => {
